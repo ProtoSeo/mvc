@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 data class UserResponse (
     var result:Result ?=null,
     var description:String ?=null,
+    // var user : MutableList ... 라고 해도 된다.
     @JsonProperty("user")
     var userRequest:MutableList<UserRequest>?=null
 )
