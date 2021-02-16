@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 
 // 이렇게 작성하면 클래스 전체가 지정한 namingstrategy를 따른다.
 // 또 다른 방법   ; objectMapper를 bean에 등록할때, application.properties 에 naming 규칙을 적어줄수도있다.
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
 data class UserRequest (
     var name:String? = null,
     var age:Int? = null,
@@ -18,3 +18,30 @@ data class UserRequest (
     //    @JsonProperty("phone_number")
     var phoneNumber:String?=null
 )
+
+/*  이런 복잡한 JSON을 주고 받아야한다면 어떻게 해야할까?
+{
+    "result":{
+        "result_code":"OK",
+        "result_message" : "성공",
+    },
+    "description":"~~~",
+    "user":[
+        {"name":"",
+         "age":"",
+         "email":"",
+         "phoneNumber":"
+        },
+        {"name":"",
+         "age":"",
+         "email":""
+         "phoneNumber":"
+        },
+        {"name":"",
+         "age":"",
+         "email":""
+         "phoneNumber":"
+        }
+    ]
+}
+*/
