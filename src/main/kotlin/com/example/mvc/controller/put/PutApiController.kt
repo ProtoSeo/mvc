@@ -3,7 +3,11 @@ package com.example.mvc.controller.put
 import com.example.mvc.model.http.Result
 import com.example.mvc.model.http.UserRequest
 import com.example.mvc.model.http.UserResponse
+import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api")
@@ -18,8 +22,23 @@ class PutApiController {
     fun requestMapping():String{
         return "request -mapping - put mapping"
     }
+
     @PutMapping(path=["put-mapping/object"])    // 내용이 없으면 생성, 있으면 수정하는 PUT
-    fun putMappingObject(@RequestBody userRequest: UserRequest): UserResponse {
+    //@ Valid 해당 빈에 대해서만
+    fun putMappingObject(@Valid @RequestBody userRequest: UserRequest, bindingResult:BindingResult): ResponseEntity<String> {
+        if(bindingResult.hasErrors()){
+            // 에러를 가지고 있다면 제대로 처리 x, 500 error 던지자
+            val msg = StringBuilder()
+            bindingResult.allErrors.forEach{
+                val field = it as FieldError
+                val message = field.defaultMessage
+                msg.append("${field.field} : $message")
+
+
+            }
+            return ResponseEntity.badRequest().body(msg.toString())
+        }
+    /*
         // 0. Response
         return UserResponse().apply{
             // 1. result
@@ -50,6 +69,9 @@ class PutApiController {
             })
 
             this.userRequest = userList
-        }
+        }.apply {
+
+        }*/
+        return ResponseEntity.ok("")
     }
 }
