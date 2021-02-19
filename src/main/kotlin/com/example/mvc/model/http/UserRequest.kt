@@ -1,5 +1,6 @@
 package com.example.mvc.model.http
 
+import com.example.mvc.annotation.StringFormatDateTime
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
@@ -32,19 +33,19 @@ data class UserRequest (
     @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")  //정규식 검
     var phoneNumber:String?=null,
 
-
+    @field:StringFormatDateTime(pattern="yyyy-MM-dd HH:mm:ss", message = "패턴이 올바르지 않습니다.")
     var createAt:String?=null   // ex) yyyy-MM-dd HH:mm:ss 이렇게 까다로운 것은 직접 만들어서 해결 가능하다.
 ){
     // 기존의 어노테이션으로 검증을 하기 힘들때 만들어서 사용
-    @AssertTrue(message = "생성일자의 패턴은 yyyy-MM-dd HH:mm:ss 이어야 합니다.")
-    private fun isValidateCreateAt():Boolean{   //정상 : true, 비정상 : false
-        return try{
-            LocalDateTime.parse(this.createAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            true
-        }catch(e:Exception){
-            false
-        }
-    }
+//    @AssertTrue(message = "생성일자의 패턴은 yyyy-MM-dd HH:mm:ss 이어야 합니다.")
+//    private fun isValidateCreateAt():Boolean{   //정상 : true, 비정상 : false
+//        return try{
+//            LocalDateTime.parse(this.createAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//            true
+//        }catch(e:Exception){
+//            false
+//        }
+//    }
 }
 
 /*  이런 복잡한 JSON을 주고 받아야한다면 어떻게 해야할까?
